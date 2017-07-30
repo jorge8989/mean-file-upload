@@ -1,0 +1,17 @@
+{
+  "name": "fileuploadmulter",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "jorge8989",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "*",
+    "express": "*",
+    "mongoose": "^4.11.4",
+    "multer": "^1.3.0"
+  }
+}
