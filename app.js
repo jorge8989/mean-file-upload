@@ -12,7 +12,7 @@ var db = mongoose.connection;
 
 app.use(function(req, res, next) { //allow cross origin requests
     res.setHeader("Access-Control-Allow-Methods", "POST, PUT, OPTIONS, DELETE, GET");
-    res.header("Access-Control-Allow-Origin", "http://localhost:4200, http://localhost:3000");
+    res.header("Access-Control-Allow-Origin", "http://localhost:4200");
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
     res.header("Access-Control-Allow-Credentials", true);
     next();
@@ -28,8 +28,11 @@ app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, "./public/index.html"));
 });
 
-app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, "./public/index.html"));
+app.get('/api/photos', function(req, res) {
+  Photo.getPhotos(function(err, photos) {
+    if (err) throw err;
+    res.json({data: photos});
+  });
 });
 
 app.post('/photo', upload.single('file'), (req, res, next) => {
@@ -47,6 +50,8 @@ app.post('/photo', upload.single('file'), (req, res, next) => {
   });
 });
 
+
+
 app.delete('/photos/:_id', (req, res) => {
   Photo.removePhoto(req.params._id, (err, photo) => {
     if (err) throw err;
@@ -55,6 +60,10 @@ app.delete('/photos/:_id', (req, res) => {
       res.send('photo deleted');
     });
   });
+});
+
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, "./public/index.html"));
 });
 
 app.listen(app.get('port'), () => {
